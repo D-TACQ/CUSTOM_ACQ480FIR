@@ -1,0 +1,11 @@
+#!/bin/sh
+/usr/local/CARE/acq480_init_clk 50M
+eval $(get.site 0 aggregator)
+SITES=$(echo $sites | tr , \  )
+
+for site in $SITES
+do
+	set.site $site ACQ480:FIR:01 CUSTOM_D2
+done
+
+acq480_loadFilterCustomCoefficients D8

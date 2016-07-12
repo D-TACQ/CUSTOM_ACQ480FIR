@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo custom_acq480fir.init stub
+

@@ -1,0 +1,16 @@
+#!/bin/sh
+SITES=${SITE:-0}
+
+if [ $SITES -eq 0 ]; then
+	eval $(get.site 0 aggregator)
+	SITES=$(echo $sites | tr , \  )
+fi
+
+for site in $SITES
+do
+	echo $site
+	for ch in $(seq 1 8)
+	do
+		set.site $site acq480_setFilterCoefficients $ch $*
+	done
+done

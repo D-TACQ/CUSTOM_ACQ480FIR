@@ -1,0 +1,15 @@
+README for package: custom_acq480FIR
+
+Load and control both the ADS4294 FIR and the FFIR on the FPGA
+
+Lowlevel functions:
+SITE=N acq480_setFilterCoefficientsAll $*
+SITE=N acq480_loadFilterCustomCoefficients {D2|D8} 
+
+And High Level functions
+acq480_setInternalClockIn80M_Out1M
+acq480_setInternalClockIn50M_Out2M5
+
+NB: FFIR is assumed FIXED. Todo - update FFIR coeffs?
+
+

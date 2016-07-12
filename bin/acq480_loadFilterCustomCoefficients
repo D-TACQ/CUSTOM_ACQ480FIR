@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case $1 in
+D8)
+	acq480_setFilterCoefficientsAll 11 14 10 -9 -39 -64 -59 -5 100 240 372 452;;
+D2)
+	acq480_setFilterCoefficientsAll 4 13 -18 -9 44 -19 -67 93 49 -241 131 1044;;
+*)
+	echo ERROR DIV \"$1\" not supported .. works with D8 and D2;;
+esac
+
