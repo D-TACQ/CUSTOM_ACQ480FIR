@@ -8,9 +8,10 @@ fi
 
 for site in $SITES
 do
-	echo $site
+	echo -n $site
 	for ch in $(seq 1 8)
 	do
-		set.site $site acq480_setFilterCoefficients $ch $*
+		set.site $site acq480_setFilterCoefficients $ch $* >/dev/null
 	done
+	echo
 done

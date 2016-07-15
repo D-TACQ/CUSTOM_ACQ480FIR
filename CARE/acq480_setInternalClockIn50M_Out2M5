@@ -5,7 +5,7 @@ SITES=$(echo $sites | tr , \  )
 
 for site in $SITES
 do
-	set.site $site ACQ480:FIR:01 CUSTOM_D2
+	set.site $site ACQ480:FIR:01 CUSTOM_D2 >/dev/null
 done
 
 acq480_loadFilterCustomCoefficients D8
