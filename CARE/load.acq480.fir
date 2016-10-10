@@ -14,7 +14,7 @@ case $# in
 		loadfile /usr/local/coeff_sets/ADS5294/$1
 	else
 		echo ERROR file not found; exit 1
-	fi;
+	fi;;
 *)
 	echo ERROR USAGE load.acq480.fir FILE \| 12 coeffs; exit 1;;
 esac
