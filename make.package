@@ -10,10 +10,12 @@ rm -Rf opkg/*
 mkdir -p opkg/usr/local/bin \
 	opkg/usr/local/init \
 	opkg/usr/local/CARE \
+	opkg/usr/local/coeff_sets
 
 cp CARE/* opkg/usr/local/CARE
 cp bin/* opkg/usr/local/bin
 cp init/* opkg/usr/local/init
+cp -r coeff_sets/* opkg/usr/local/coeff_sets
 cp README opkg/usr/local/init/$PKG-README
 
 tar cvzf release/${SEQ}-${PKG}-${DC}.tgz -C opkg .
