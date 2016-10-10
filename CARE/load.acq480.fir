@@ -6,7 +6,7 @@ loadfile() {
 
 case $# in
 12)
-	acq480_setFilterCoefficientsAll $*
+	acq480_setFilterCoefficientsAll $*;;
 1)
 	if [ -e $1 ]; then
 		loadfile $1
