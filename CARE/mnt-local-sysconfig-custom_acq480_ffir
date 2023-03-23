@@ -1,0 +1,8 @@
+#!/bin/sh
+
+FFIR=/usr/local/coeff_sets/DEC10/nyquist
+
+for s in $(get.site 0 sites | tr , \  ); do
+    echo site $site
+    set.site $s load.ffir $FFIR
+done

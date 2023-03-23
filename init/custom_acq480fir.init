@@ -2,3 +2,8 @@
 
 echo custom_acq480fir.init stub
 
+CUSTOM=/mnt/local/sysconfig/custom_acq480_ffir
+if [ -e $CUSTOM ]; then
+	( wait_ioc_ready; $CUSTOM ) &
+fi
+
