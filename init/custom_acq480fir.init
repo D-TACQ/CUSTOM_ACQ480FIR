@@ -15,6 +15,14 @@ if [ -e $SETTINGS ]; then
 		echo acq480_fir schedule a FIR load and BIST
 		( wait_ioc_ready; 
 		  /usr/local/CARE/ffir_test_shot $FIR_FILE
+		  status=$?
+		  if [ $status -eq 0 ]; then
+			  echo "acq480 FFIR load BIST0 success"
+		  else
+			  echo "acq480 FFIR load BIST0 FAIL"
+	          fi
+		  echo $status > /var/www/d-tacq/bist0_status
+		  ln -s /tmp/bist0 /var/www/d-tacq/
 		  /usr/local/CARE/ffir_bist_off
 		) &
 	fi
