@@ -16,18 +16,25 @@ if [ -e $SETTINGS ]; then
 	fi
 	if [ -e $FIR_FILE ]; then
 		echo acq480_fir schedule a FIR load and BIST
-		( wait_ioc_ready; 
-		  sleep 5
-		  /usr/local/CARE/ffir_test_shot $FIR_FILE
-		  status=$?
-		  if [ $status -eq 0 ]; then
-			  echo "acq480 FFIR load BIST0 success"
-		  else
-			  echo "acq480 FFIR load BIST0 FAIL"
-	          fi
-		  echo $status > /var/www/d-tacq/bist0_status
-		  ln -s /tmp/bist0 /var/www/d-tacq/
-		  /usr/local/CARE/ffir_bist_off
+		( 
+			wait_ioc_ready; 
+			sleep ${FIR_SLEEP:-5}
+		  	if [ ! -z $FIR_BIST ] && [ $FIR_BIST -eq 1 ]; then
+				echo acq480_fir BIST commencing
+			 	/usr/local/CARE/ffir_test_shot $FIR_FILE
+			  	status=$?
+			  	if [ $status -eq 0 ]; then
+					echo "acq480 FFIR load BIST0 success"
+			  	else
+					echo "acq480 FFIR load BIST0 FAIL"
+		          	fi
+			  	echo $status > /var/www/d-tacq/bist0_status
+			  	ln -s /tmp/bist0 /var/www/d-tacq/
+			  	/usr/local/CARE/ffir_bist_off
+			else 
+				echo acq480_fir loading coeffs
+				/usr/local/CARE/ffir_load_all $FIR_FILE
+			fi
 		) &
 	else
 		echo "acq480 fir file not found $FIR_FILE"

@@ -18,6 +18,8 @@ SETTINGS=/mnt/local/sysconfig/custom_acq480_ffir_settings.sh
 
 FIR_FILE=COEFFS   
 FIR_FILE=/usr/local/coeffs/DEC10/nyquist
+FIR_BIST=1   # run a BIST on load
+FIR_SLEEP=N  # time to wait before starting (default 5s)
 
 Load this FFIR coefficient set and run a self test on boot.
 
