@@ -1,0 +1,24 @@
+#!/bin/sh
+SHOTS=${1:-10}
+
+shot=1
+
+while [ $shot -lt $SHOTS ]; do
+    echo shot pair $shot
+    for FIR in nyquist half_nyquist; do
+	/usr/local/CARE/ffir_test_shot /usr/local/coeff_sets/DEC10/$FIR
+	if [ $? -ne 0 ]; then
+		echo FAIL $1 first time, retry
+		/usr/local/CARE/ffir_test_shot /usr/local/coeff_sets/DEC10/$FIR
+		if [ $? -ne 0 ]; then
+			echo FAIL $1 second time
+			exit 1
+		else
+			echo FIXED $1 second time
+		fi
+	fi
+    done
+    shot=$((shot+1))
+done
+
+

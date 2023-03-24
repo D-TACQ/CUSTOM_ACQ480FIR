@@ -7,3 +7,17 @@ if [ -e $CUSTOM ]; then
 	( wait_ioc_ready; $CUSTOM ) &
 fi
 
+SETTINGS=/mnt/local/sysconfig/custom_acq480_ffir_settings.sh
+
+if [ -e $SETTINGS ]; then
+	source $SETTINGS
+	if [ -e $FIR_FILE ]; then
+		echo acq480_fir schedule a FIR load and BIST
+		( wait_ioc_ready; 
+		  /usr/local/CARE/ffir_test_shot $FIR_FILE
+		  /usr/local/CARE/ffir_bist_off
+		) &
+	fi
+fi
+
+

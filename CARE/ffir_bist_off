@@ -1,0 +1,3 @@
+#!/bin/sh
+SITES="$(get.site 0 sites | tr , \  )"
+for s in $SITES; do set.site $s ffir_bist 0; done

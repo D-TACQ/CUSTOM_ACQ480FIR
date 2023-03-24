@@ -1,0 +1,5 @@
+#!/bin/sh
+FILTER=${1:-/usr/local/coeff_sets/DEC10/nyquist}
+for site in $(get.site 0 sites | tr , \ ); do
+	set.site $site load.ffir $FILTER
+done

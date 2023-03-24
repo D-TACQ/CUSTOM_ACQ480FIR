@@ -1,0 +1,41 @@
+#!/bin/sh
+
+SITES="$(get.site 0 sites | tr , \  )"
+
+if [ -e $1 ]; then
+	for s in $SITES; do set.site $s load.ffir $1; done
+fi
+
+for s in $SITES; do set.site $s ffir_bist 1; done
+set.site 1 RGM OFF
+set.site 0 transient PRE=0 POST=100000 DEMUX=1 SOFT_TRIGGER=1
+sleep 1
+set.site 0 TRANSIENT:SET_ARM 1
+wait_until_transient_complete
+
+find /dev/acq400/data/[123456] -type f -print | sort -n | xargs sha1sum > /tmp/bist0
+
+if [ ! -e ${1}.bist ]; then
+	echo SORRY, no GOOD_SHA ${1}.bist not found
+	exit 1
+fi
+GOOD_SHA=$(cat ${1}.bist)
+
+echo results for $1
+while read sha file; do 
+	if [ "$GOOD_SHA" = "$sha" ]; then
+		status=GOOD
+	else
+		status=FAIL
+	fi
+	echo $sha $file $status
+done < /tmp/bist0
+
+[ "$status" = "GOOD" ] && exit 0
+
+exit 1
+
+
+
+
+

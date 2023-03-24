@@ -10,6 +10,21 @@ And High Level functions
 acq480_setInternalClockIn80M_Out1M
 acq480_setInternalClockIn50M_Out2M5
 
-NB: FFIR is assumed FIXED. Todo - update FFIR coeffs?
+FFIR:
+/mnt/local/sysconfig/custom_acq480_ffir  
+	complete custom script to exect on IOC ready
+SETTINGS=/mnt/local/sysconfig/custom_acq480_ffir_settings.sh
+	settings file for init
+
+FIR_FILE=COEFFS   
+FIR_FILE=/usr/local/coeffs/DEC10/nyquist
+
+Load this FFIR coefficient set and run a self test on boot.
+
+
+Loop testing:
+/usr/local/CARE/ffir_test_shot_loop
+
+
 
 
