@@ -2,7 +2,7 @@
 
 SITES="$(get.site 0 sites | tr , \  )"
 
-if [ ! z $1 ] && [ -e $1 ]; then
+if [ ! -z $1 ] && [ -e $1 ]; then
 	for s in $SITES; do set.site $s load.ffir $1; done
 else
 	echo using existing cooeffs
