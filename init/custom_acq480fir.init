@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo custom_acq480fir.init stub
+echo custom_acq480fir.init 01
 
 CUSTOM=/mnt/local/sysconfig/custom_acq480_ffir
 if [ -e $CUSTOM ]; then
@@ -11,9 +11,13 @@ SETTINGS=/mnt/local/sysconfig/custom_acq480_ffir_settings.sh
 
 if [ -e $SETTINGS ]; then
 	source $SETTINGS
+	if [ -z $FIR_FILE ]; then
+		break
+	fi
 	if [ -e $FIR_FILE ]; then
 		echo acq480_fir schedule a FIR load and BIST
 		( wait_ioc_ready; 
+		  sleep 5
 		  /usr/local/CARE/ffir_test_shot $FIR_FILE
 		  status=$?
 		  if [ $status -eq 0 ]; then
@@ -25,7 +29,10 @@ if [ -e $SETTINGS ]; then
 		  ln -s /tmp/bist0 /var/www/d-tacq/
 		  /usr/local/CARE/ffir_bist_off
 		) &
+	else
+		echo "acq480 fir file not found $FIR_FILE"
 	fi
 fi
 
+echo custom_acq480fir.init 99
 
