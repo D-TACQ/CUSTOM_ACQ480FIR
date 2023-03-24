@@ -2,8 +2,10 @@
 
 SITES="$(get.site 0 sites | tr , \  )"
 
-if [ -e $1 ]; then
+if [ ! z $1 ] && [ -e $1 ]; then
 	for s in $SITES; do set.site $s load.ffir $1; done
+else
+	echo using existing cooeffs
 fi
 
 for s in $SITES; do set.site $s ffir_bist 1; done
@@ -17,6 +19,7 @@ find /dev/acq400/data/[123456] -type f -print | sort -n | xargs sha1sum > /tmp/b
 
 if [ ! -e ${1}.bist ]; then
 	echo SORRY, no GOOD_SHA ${1}.bist not found
+	cat /tmp/bist0
 	exit 1
 fi
 GOOD_SHA=$(cat ${1}.bist)
