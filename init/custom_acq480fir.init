@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo custom_acq480fir.init 01
+echo "custom_acq480fir.init 01"
 
 CUSTOM=/mnt/local/sysconfig/custom_acq480_ffir
 if [ -e $CUSTOM ]; then
@@ -18,9 +18,15 @@ if [ -e $SETTINGS ]; then
 		echo acq480_fir schedule a FIR load and BIST
 		( 
 			wait_ioc_ready; 
-			sleep ${FIR_SLEEP:-5}
+			while [ ! -e /var/www/d-tacq/rc-user-complete ]; do
+				sleep 1
+			done
+			sleep ${FIR_SLEEP:-2}
+			echo "custom_acq480fir.init wait_until 11:Si5326:TUNEPHASE:BUSY done"
+			wait_until 11:Si5326:TUNEPHASE:BUSY 0 1
+
 		  	if [ ! -z $FIR_BIST ] && [ $FIR_BIST -eq 1 ]; then
-				echo acq480_fir BIST commencing
+				echo "acq480_fir BIST commencing.."
 			 	/usr/local/CARE/ffir_test_shot $FIR_FILE
 			  	status=$?
 			  	if [ $status -eq 0 ]; then
@@ -32,14 +38,14 @@ if [ -e $SETTINGS ]; then
 			  	ln -s /tmp/bist0 /var/www/d-tacq/
 			  	/usr/local/CARE/ffir_bist_off
 			else 
-				echo acq480_fir loading coeffs
+				echo "acq480_fir loading coeffs $FIR_FILE"
 				/usr/local/CARE/ffir_load_all $FIR_FILE
 			fi
 		) &
 	else
-		echo "acq480 fir file not found $FIR_FILE"
+		echo "custom_acq480fir.init ERROR acq480 fir file not found $FIR_FILE"
 	fi
 fi
 
-echo custom_acq480fir.init 99
+echo "custom_acq480fir.init 99"
 
