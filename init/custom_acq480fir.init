@@ -22,8 +22,11 @@ if [ -e $SETTINGS ]; then
 				sleep 1
 			done
 			sleep ${FIR_SLEEP:-2}
-			echo "custom_acq480fir.init wait_until 11:Si5326:TUNEPHASE:BUSY done"
-			wait_until 11:Si5326:TUNEPHASE:BUSY 0 1
+			HAS_WR=$(get.site 0 has_wr)
+			if [ "x$HAS_WR" != "xnone" ]; then
+				echo "custom_acq480fir.init wait_until 11:Si5326:TUNEPHASE:BUSY done"
+				wait_until 11:Si5326:TUNEPHASE:BUSY 0 1
+			fi
 
 		  	if [ ! -z $FIR_BIST ] && [ $FIR_BIST -eq 1 ]; then
 				echo "acq480_fir BIST commencing.."
